@@ -4,11 +4,10 @@ import 'package:flutter/material.dart';
 
 void main() {
   runApp(BytebankApp());
-  findAll();
+  findAll().then((transactions) => print('new transactions $transactions'));
 }
 
 class BytebankApp extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
