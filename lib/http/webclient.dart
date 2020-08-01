@@ -36,8 +36,9 @@ Future<List<Transaction>> findAll() async {
     ],
   );
 
-  final Response response =
-      await client.get('http://192.168.56.1:8080/transactions');
+  final Response response = await client
+      .get('http://192.168.56.1:8080/transactions')
+      .timeout(Duration(seconds: 5));
   final List<dynamic> decodedJson = jsonDecode(response.body);
   final List<Transaction> transactions = List();
   for (Map<String, dynamic> transactionJson in decodedJson) {
