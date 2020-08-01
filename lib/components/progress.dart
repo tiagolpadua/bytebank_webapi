@@ -14,6 +14,5 @@ class Progress extends StatelessWidget {
         children: <Widget>[CircularProgressIndicator(), Text(message)],
       ),
     );
-    ;
   }
 }
