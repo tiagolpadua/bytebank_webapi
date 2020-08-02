@@ -7,7 +7,6 @@ import 'package:bytebank/http/webclients/transaction_webclient.dart';
 import 'package:bytebank/models/contact.dart';
 import 'package:bytebank/models/transaction.dart';
 import 'package:flutter/material.dart';
-import 'package:http_interceptor/models/http_interceptor_exception.dart';
 import 'package:uuid/uuid.dart';
 
 class TransactionForm extends StatefulWidget {
