@@ -1,5 +1,5 @@
 
-import '../lib/models/transaction.dart';
+import '../../lib/models/transaction.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
