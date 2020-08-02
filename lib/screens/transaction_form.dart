@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:bytebank/components/response_dialog.dart';
 import 'package:bytebank/components/transaction_auth_dialog.dart';
 import 'package:bytebank/http/webclients/transaction_webclient.dart';
 import 'package:bytebank/models/contact.dart';
 import 'package:bytebank/models/transaction.dart';
 import 'package:flutter/material.dart';
+import 'package:http_interceptor/models/http_interceptor_exception.dart';
 
 class TransactionForm extends StatefulWidget {
   final Contact contact;
@@ -98,7 +101,13 @@ class _TransactionFormState extends State<TransactionForm> {
           builder: (contextDialog) {
             return FailureDialog(e.message);
           });
-    }, test: (e) => e is Exception);
+    }, test: (e) => e is HttpException).catchError((e) {
+      showDialog(
+          context: context,
+          builder: (contextDialog) {
+            return FailureDialog('timeout submitting the transaction');
+          });
+    }, test: (e) => e is TimeoutException);
 
     if (transaction != null) {
       await showDialog(
