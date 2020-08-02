@@ -10,8 +10,6 @@ import 'package:http/http.dart' as http;
 import 'matchers.dart';
 import 'mocks.dart';
 
-class MockClient extends Mock implements http.Client {}
-
 void main() {
   testWidgets('Should save a contact', (tester) async {
     final mockContactDao = MockContactDao();
@@ -58,15 +56,6 @@ void main() {
     expect(accountNumberTextField, findsOneWidget);
     await tester.enterText(accountNumberTextField, '1000');
 
-    // debugDumpApp();
-
-    final client = MockClient();
-
-    // Use Mockito to return a successful response when it calls the
-    // provided http.Client.
-    when(client.get('https://jsonplaceholder.typicode.com/posts/1'))
-        .thenAnswer((_) async => http.Response('{"title": "Test"}', 200));
-
     final createButton = find.widgetWithText(RaisedButton, 'Create');
     expect(createButton, findsOneWidget);
     await tester.tap(createButton);
@@ -74,6 +63,7 @@ void main() {
 
     // TODO: await _dao.save(newContact); não está retornando, logo não faz o navigator pop e o teste não dá certo
     // https://cursos.alura.com.br/forum/topico-erro-ao-mudar-da-tela-formcontact-para-contactlist-105501
+    // debugDumpApp();
 
 //    final contactsListBack = find.byType(ContactsList);
     final contactsListBack = find.byType(Text);
