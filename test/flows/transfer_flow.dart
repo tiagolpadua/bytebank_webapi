@@ -1,7 +1,10 @@
 
 import 'package:bytebank/main.dart';
+import 'package:bytebank/models/contact.dart';
 import 'package:bytebank/screens/contacts_list.dart';
 import 'package:bytebank/screens/dashboard.dart';
+import 'package:bytebank/screens/transaction_form.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
@@ -17,6 +20,11 @@ void main() {
     final dashboard = find.byType(Dashboard);
     expect(dashboard, findsOneWidget);
 
+    when(mockContactDao.findAll()).thenAnswer((invocation) async {
+      // debugPrint('name invocation ${invocation.memberName}');
+      return [Contact(0, 'Alex', 1000)];
+    });
+
     await clickOnTheTransferFeatureItem(tester);
     await tester.pumpAndSettle();
 
@@ -24,5 +32,19 @@ void main() {
     expect(contactsList, findsOneWidget);
 
     verify(mockContactDao.findAll()).called(1);
+
+    final contactItem = find.byWidgetPredicate((widget) {
+      if(widget is ContactItem) {
+        return widget.contact.name == 'Alex' && widget.contact.accountNumber == 1000;
+      }
+      return false;
+    });
+
+    expect(contactItem, findsOneWidget);
+    await tester.tap(contactItem);
+    await tester.pumpAndSettle();
+
+    final transactionForm = find.byType(TransactionForm);
+    expect(transactionForm, findsOneWidget);
   });
 }
