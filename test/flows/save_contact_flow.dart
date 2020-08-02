@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
+import '../matchers/matchers.dart';
 import '../mocks/mocks.dart';
 import 'actions.dart';
 
@@ -36,12 +37,12 @@ void main() {
     expect(contactForm, findsOneWidget);
 
     final nameTextField = find
-        .byWidgetPredicate((widget) => _textFieldMatcher(widget, 'Full name'));
+        .byWidgetPredicate((widget) => textFieldByLabelTextMatcher(widget, 'Full name'));
     expect(nameTextField, findsOneWidget);
     await tester.enterText(nameTextField, 'Alex');
 
     final accountNumberTextField = find.byWidgetPredicate(
-        (widget) => _textFieldMatcher(widget, 'Account number'));
+        (widget) => textFieldByLabelTextMatcher(widget, 'Account number'));
     expect(accountNumberTextField, findsOneWidget);
     await tester.enterText(accountNumberTextField, '1000');
 
@@ -71,11 +72,4 @@ void main() {
 
     expect(contactsListBack, findsWidgets);
   });
-}
-
-bool _textFieldMatcher(Widget widget, String labelText) {
-  if (widget is TextField) {
-    return widget.decoration.labelText == labelText;
-  }
-  return false;
 }
