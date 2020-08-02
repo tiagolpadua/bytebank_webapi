@@ -10,10 +10,7 @@ void main() {
       (WidgetTester tester) async {
     final mockContactDao = MockContactDao();
 
-    await tester.pumpWidget(MaterialApp(
-        home: Dashboard(
-      contactDao: mockContactDao,
-    )));
+    await tester.pumpWidget(MaterialApp(home: Dashboard()));
     final mainImage = find.byType(Image);
     expect(mainImage, findsOneWidget);
   });
@@ -23,8 +20,7 @@ void main() {
       (tester) async {
     final mockContactDao = MockContactDao();
 
-    await tester
-        .pumpWidget(MaterialApp(home: Dashboard(contactDao: mockContactDao)));
+    await tester.pumpWidget(MaterialApp(home: Dashboard()));
 //    final iconTransferFeatureItem =
 //        find.widgetWithIcon(FeatureItem, Icons.monetization_on);
 //    expect(iconTransferFeatureItem, findsOneWidget);
@@ -42,10 +38,7 @@ void main() {
       'should display the transaction feed feature when the dashboard is opened',
       (tester) async {
     final mockContactDao = MockContactDao();
-    await tester.pumpWidget(MaterialApp(
-        home: Dashboard(
-      contactDao: mockContactDao,
-    )));
+    await tester.pumpWidget(MaterialApp(home: Dashboard()));
 //    final iconTransactionFeedFeatureItem =
 //        find.widgetWithIcon(FeatureItem, Icons.description);
 //    expect(iconTransactionFeedFeatureItem, findsOneWidget);
