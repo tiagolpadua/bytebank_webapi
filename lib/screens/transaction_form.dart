@@ -24,6 +24,8 @@ class _TransactionFormState extends State<TransactionForm> {
   final TransactionWebClient _webClient = TransactionWebClient();
   final String transsactionId = Uuid().v4();
 
+  bool _sending = false;
+
   @override
   Widget build(BuildContext context) {
     print('transaction form id $transsactionId');
@@ -38,12 +40,11 @@ class _TransactionFormState extends State<TransactionForm> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Visibility(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Progress(message: 'Sending...'),
-                ),
-                visible: false
-              ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Progress(message: 'Sending...'),
+                  ),
+                  visible: _sending),
               Text(
                 widget.contact.name,
                 style: TextStyle(
@@ -110,7 +111,6 @@ class _TransactionFormState extends State<TransactionForm> {
       password,
       context,
     );
-
     _showSuccessfulMessage(transaction, context);
   }
 
@@ -131,6 +131,9 @@ class _TransactionFormState extends State<TransactionForm> {
     String password,
     BuildContext context,
   ) async {
+    setState(() {
+      _sending = true;
+    });
     final Transaction transaction =
         await _webClient.save(transactionCreated, password).catchError((e) {
       _showFailureMessage(context, message: e.message);
@@ -139,6 +142,10 @@ class _TransactionFormState extends State<TransactionForm> {
           message: 'timeout submitting the transaction');
     }, test: (e) => e is TimeoutException).catchError((e) {
       _showFailureMessage(context);
+    }).whenComplete(() {
+      setState(() {
+        _sending = false;
+      });
     });
     return transaction;
   }
